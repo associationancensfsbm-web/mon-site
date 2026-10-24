@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAEC-FSBM | Association des Anciens Enseignants Chercheurs</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        academic: {
+                            dark: '#001d3d',
+                            DEFAULT: '#003566',
+                            light: '#1d4ed8',
+                            gold: '#d4af37',
+                            goldLight: '#fef9c3'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Cairo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .rtl { direction: rtl; text-align: right; }
+        .ltr { direction: ltr; text-align: left; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+    <!-- BARRE INSTITUTIONNELLE SUPÉRIEURE -->
+    <div class="bg-academic-dark text-white text-xs py-2 px-4 border-b border-academic-gold/20">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-2">
+                <span id="instHeader" class="font-medium tracking-wide">Université Hassan II de Casablanca | Faculté des Sciences Ben M'sik</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span id="contactHeaderPhone"><i class="fas fa-phone-alt text-academic-gold mr-1 ml-1"></i> +212 5 22 70 46 71</span>
+                <span id="contactHeaderEmail"><i class="fas fa-envelope text-academic-gold mr-1 ml-1"></i> contact@aaec-fsbm.ma</span>
+                <!-- Sélecteur de langue -->
+                <div class="inline-flex rounded-md shadow-sm bg-academic/80 p-0.5 ml-2">
+                    <button onclick="switchLanguage('fr')" id="btnLangFr" class="px-2.5 py-1 text-xs font-bold rounded bg-academic-gold text-academic-dark transition">FR</button>
+                    <button onclick="switchLanguage('ar')" id="btnLangAr" class="px-2.5 py-1 text-xs font-bold rounded text-white hover:bg-academic-light transition">AR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION PRINCIPALE -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo & Titre de l'Association -->
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full bg-academic-dark flex items-center justify-center text-academic-gold font-bold text-xl border-2 border-academic-gold">
+                        AA
+                    </div>
+                    <div>
+                        <span id="navAssocName" class="font-bold text-lg block text-academic-dark leading-tight">AAEC-FSBM</span>
+                        <span id="navAssocSub" class="text-xs text-gray-500 font-medium">Anciens Enseignants Chercheurs - FSBM</span>
+                    </div>
+                </div>
+
+                <!-- Liens de navigation (Desktop) -->
+                <div class="hidden md:flex items-center space-x-6 rtl:space-x-reverse font-medium text-sm text-gray-700">
+                    <a href="#accueil" id="navAccueil" class="hover:text-academic transition">Accueil</a>
+                    <a href="#mot-president" id="navMot" class="hover:text-academic transition">Mot du Président</a>
+                    <a href="#bureau" id="navBureau" class="hover:text-academic transition">Le Bureau</a>
+                    <a href="#actualites" id="navActus" class="hover:text-academic transition">Actualités</a>
+                    <a href="#contact" id="navContact" class="hover:text-academic transition">Contact</a>
+                </div>
+
+                <!-- Bouton Adhésion Rapide -->
+                <div class="hidden lg:flex items-center">
+                    <button onclick="openMembershipModal()" id="btnAdhesionNav" class="bg-academic-gold hover:bg-yellow-600 text-academic-dark font-bold px-4 py-2.5 rounded-lg shadow transition flex items-center gap-2 text-sm">
+                        <i class="fas fa-user-plus"></i>
+                        <span id="navAdhesionText">Adhérer à l'Association</span>
+                    </button>
+                </div>
+
+                <!-- Bouton menu mobile -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Menu Mobile Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t px-4 pt-2 pb-4 space-y-2">
+            <a href="#accueil" class="block py-2 text-gray-700 font-medium">Accueil</a>
+            <a href="#mot-president" class="block py-2 text-gray-700 font-medium">Mot du Président</a>
+            <a href="#bureau" class="block py-2 text-gray-700 font-medium">Le Bureau</a>
+            <a href="#actualites" class="block py-2 text-gray-700 font-medium">Actualités</a>
+            <a href="#contact" class="block py-2 text-gray-700 font-medium">Contact</a>
+            <button onclick="openMembershipModal()" class="w-full text-center mt-2 bg-academic-gold text-academic-dark font-bold px-4 py-2 rounded-lg">Adhérer</button>
+        </div>
+    </nav>
+
+    <!-- HERO CAROUSEL -->
+    <header id="accueil" class="relative bg-academic-dark text-white overflow-hidden py-24 md:py-32">
+        <div class="absolute inset-0 opacity-25 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-block bg-academic-gold/20 text-academic-gold text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4 border border-academic-gold/30" id="heroBadge">
+                Faculté des Sciences Ben M'sik - Casablanca
+            </span>
+            <h1 id="heroTitle" class="text-3xl md:text-5xl font-extrabold tracking-tight mb-6 max-w-4xl mx-auto leading-tight">
+                Association des Anciens Enseignants Chercheurs de la FSBM
+            </h1>
+            <p id="heroSubtitle" class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10">
+                Préserver la mémoire académique, perpétuer l'esprit de recherche et tisser des liens solides entre les générations d'enseignants.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="openMembershipModal()" id="heroBtnAdhesion" class="bg-academic-gold hover:bg-yellow-600 text-academic-dark font-bold px-8 py-3.5 rounded-lg shadow-lg transition transform hover:-translate-y-0.5">
+                    Rejoindre l'Association
+                </button>
+                <a href="#actualites" id="heroBtnActus" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-3.5 rounded-lg border border-white/20 backdrop-blur transition">
+                    Découvrir nos Actualités
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOT DU PRÉSIDENT -->
+    <section id="mot-president" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 id="presTitle" class="text-3xl font-bold text-academic-dark">Mot du Président</h2>
+                <div class="w-20 h-1 bg-academic-gold mx-auto mt-3"></div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
+                <div class="lg:col-span-1 text-center">
+                    <div class="relative inline-block">
+                        <!-- Photo du Président -->
+                        <img id="presImg" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80" alt="Président de l'association" class="rounded-2xl shadow-xl w-64 h-72 object-cover mx-auto border-4 border-academic-gold/50">
+                        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-academic-dark text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-md whitespace-nowrap" id="presBadgeRole">
+                            Président de l'AAEC-FSBM
+                        </div>
+                    </div>
+                    <h3 id="presName" class="text-xl font-bold text-academic-dark mt-4">Pr. Ahmed Bennamara</h3>
+                    <p id="presDept" class="text-sm text-gray-500">Département de Chimie, FSBM</p>
+                </div>
+                <div class="lg:col-span-2 bg-gray-50 p-8 rounded-2xl border border-gray-200 shadow-sm relative">
+                    <i class="fas fa-quote-left text-academic-gold/30 text-5xl absolute top-4 left-6"></i>
+                    <p id="presText1" class="text-gray-700 leading-relaxed mb-4 relative z-10 text-lg">
+                        Chers collègues, chers anciens de la Faculté des Sciences Ben M'sik, c'est avec un immense plaisir et un profond sentiment d'appartenance que je m'adresse à vous à travers ce portail officiel. Notre faculté a vu passer des générations d'esprits brillants qui ont façonné l'excellence scientifique de notre établissement.
+                    </p>
+                    <p id="presText2" class="text-gray-700 leading-relaxed relative z-10">
+                        Cette association se veut un pont vivant entre le passé glorieux et l'avenir prometteur de notre institution. Ensemble, continuons à œuvrer pour le partage des savoirs, l'entraide et l'accompagnement des nouvelles générations de chercheurs.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEMBRES DU BUREAU -->
+    <section id="bureau" class="py-16 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 id="boardTitle" class="text-3xl font-bold text-academic-dark">Le Bureau Exécutif</h2>
+                <div class="w-20 h-1 bg-academic-gold mx-auto mt-3"></div>
+                <p id="boardSubtitle" class="text-gray-600 mt-2">Les membres actifs au service de l'association</p>
+            </div>
+            <!-- Conteneur dynamique des membres du bureau -->
+            <div id="boardGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Rempli automatiquement par le script -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ACTUALITÉS & ÉVÉNEMENTS -->
+    <section id="actualites" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 id="newsTitle" class="text-3xl font-bold text-academic-dark">Actualités & Événements</h2>
+                <div class="w-20 h-1 bg-academic-gold mx-auto mt-3"></div>
+                <p id="newsSubtitle" class="text-gray-600 mt-2">Restez informés des dernières activités de l'association</p>
+            </div>
+            <!-- Conteneur dynamique des actualités -->
+            <div id="newsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Rempli automatiquement par le script -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION ADHÉSION & CALL TO ACTION -->
+    <section class="py-16 bg-academic-dark text-white relative overflow-hidden">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 id="ctaTitle" class="text-3xl font-bold mb-4">Rejoignez notre réseau d'anciens chercheurs</h2>
+            <p id="ctaDesc" class="text-gray-300 max-w-2xl mx-auto mb-8">
+                Participez activement à nos initiatives, rencontres scientifiques et projets de mentorat. L'adhésion est ouverte à tous les anciens enseignants de la FSBM.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="openMembershipModal()" id="ctaBtnModal" class="bg-academic-gold hover:bg-yellow-600 text-academic-dark font-bold px-8 py-3.5 rounded-lg shadow-lg transition">
+                    Remplir le formulaire d'adhésion en ligne
+                </button>
+                <a id="ctaGoogleFormLink" href="https://docs.google.com/forms/d/e/VOTRE_LIEN_GOOGLE_FORM/viewform" target="_blank" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-3.5 rounded-lg border border-white/30 backdrop-blur transition flex items-center gap-2">
+                    <i class="fab fa-google text-academic-gold"></i>
+                    <span id="ctaGoogleText">Lien direct Google Forms</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT & LOCALISATION -->
+    <section id="contact" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 id="contactTitle" class="text-3xl font-bold text-academic-dark">Contact & Localisation</h2>
+                <div class="w-20 h-1 bg-academic-gold mx-auto mt-3"></div>
+                <p id="contactSubtitle" class="text-gray-600 mt-2">Venez nous rendre visite ou envoyez-nous un message</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Formulaire de contact -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                    <h3 id="formTitle" class="text-xl font-bold text-academic-dark mb-6">Envoyez-nous un message</h3>
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <div>
+                            <label id="labelName" class="block text-sm font-medium text-gray-700 mb-1">Nom et Prénom</label>
+                            <input type="text" id="contactName" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-academic focus:outline-none">
+                        </div>
+                        <div>
+                            <label id="labelEmail" class="block text-sm font-medium text-gray-700 mb-1">Adresse Email</label>
+                            <input type="email" id="contactEmail" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-academic focus:outline-none">
+                        </div>
+                        <div>
+                            <label id="labelSubject" class="block text-sm font-medium text-gray-700 mb-1">Sujet</label>
+                            <input type="text" id="contactSubject" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-academic focus:outline-none">
+                        </div>
+                        <div>
+                            <label id="labelMessage" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                            <textarea id="contactMessage" rows="4" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-academic focus:outline-none"></textarea>
+                        </div>
+                        <button type="submit" id="btnSend" class="w-full bg-academic hover:bg-academic-light text-white font-bold py-3 rounded-lg transition shadow">
+                            Envoyer le message
+                        </button>
+                    </form>
+                </div>
+                <!-- Informations & Carte -->
+                <div class="flex flex-col justify-between space-y-6">
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200 space-y-4">
+                        <h3 id="infoTitle" class="text-xl font-bold text-academic-dark mb-4">Informations Officielles</h3>
+                        <p class="flex items-start gap-3 text-gray-600">
+                            <i class="fas fa-map-marker-alt text-academic-gold text-lg mt-1"></i>
+                            <span id="infoAddress">Faculté des Sciences Ben M'sik, Boulevard Cadi El Iass, Sidi Othmane, BP 7955, Casablanca, Maroc</span>
+                        </p>
+                        <p class="flex items-center gap-3 text-gray-600">
+                            <i class="fas fa-envelope text-academic-gold text-lg"></i>
+                            <span id="infoEmail">contact@aaec-fsbm.ma</span>
+                        </p>
+                        <p class="flex items-center gap-3 text-gray-600">
+                            <i class="fas fa-phone text-academic-gold text-lg"></i>
+                            <span id="infoPhone">+212 5 22 70 46 71</span>
+                        </p>
+                    </div>
+                    <!-- Carte OpenStreetMap FSBM -->
+                    <div class="rounded-2xl overflow-hidden shadow-sm border border-gray-200 h-64">
+                        <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=-7.5330%2C33.5600%2C-7.5130%2C33.5750&amp;layer=mapnik" style="border:0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-academic-dark text-white py-12 border-t border-academic-gold/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 id="footerName" class="text-xl font-bold text-academic-gold mb-2">AAEC-FSBM</h3>
+            <p id="footerDesc" class="text-gray-400 text-sm mb-6">Association des Anciens Enseignants Chercheurs de la Faculté des Sciences Ben M'sik</p>
+            <div class="flex justify-center space-x-6 rtl:space-x-reverse mb-6">
+                <a href="#" class="text-gray-400 hover:text-academic-gold text-xl transition"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="text-gray-400 hover:text-academic-gold text-xl transition"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="text-gray-400 hover:text-academic-gold text-xl transition"><i class="fas fa-globe"></i></a>
+            </div>
+            <p id="footerCopy" class="text-xs text-gray-500">&copy; 2026 AAEC-FSBM. Tous droits réservés. Conçu pour les enseignants chercheurs.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL D'ADHÉSION INTERACTIF -->
+    <div id="membershipModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden transform transition-all">
+            <div class="bg-academic-dark text-white px-6 py-4 flex justify-between items-center border-b border-academic-gold/20">
+                <h3 id="modalTitle" class="font-bold text-lg">Formulaire d'Adhésion - AAEC-FSBM</h3>
+                <button onclick="closeMembershipModal()" class="text-gray-300 hover:text-white text-xl font-bold">&times;</button>
+            </div>
+            <div class="p-6 max-h-[80vh] overflow-y-auto">
+                <form id="membershipForm" onsubmit="handleMembershipSubmit(event)" class="space-y-4">
+                    <div>
+                        <label id="modalLblName" class="block text-sm font-medium text-gray-700 mb-1">Nom et Prénom *</label>
+                        <input type="text" id="mName" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-academic focus:outline-none">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label id="modalLblEmail" class="block text-sm font-medium text-gray-700 mb-1">Email Personnel / Professionnel *</label>
+                            <input type="email" id="mEmail" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-academic focus:outline-none">
+                        </div>
+                        <div>
+                            <label id="modalLblPhone" class="block text-sm font-medium text-gray-700 mb-1">Téléphone *</label>
+                            <input type="tel" id="mPhone" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-academic focus:outline-none">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label id="modalLblDept" class="block text-sm font-medium text-gray-700 mb-1">Département d'origine à la FSBM *</label>
+                            <select id="mDept" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-academic focus:outline-none">
+                                <option value="Chimie">Chimie</option>
+                                <option value="Physique">Physique</option>
+                                <option value="Biologie">Biologie</option>
+                                <option value="Mathematiques & Informatique">Mathématiques & Informatique</option>
+                                <option value="Geologie">Géologie</option>
+                                <option value="Langues et Communications">Langues et Communications</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label id="modalLblGrade" class="block text-sm font-medium text-gray-700 mb-1">Grade / Spécialité *</label>
+                            <input type="text" id="mGrade" placeholder="Ex: Professeur Enseignant Chercheur" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-academic focus:outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label id="modalLblPeriod" class="block text-sm font-medium text-gray-700 mb-1">Période d'activité à la FSBM</label>
+                        <input type="text" id="mPeriod" placeholder="Ex: 1985 - 2020" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-academic focus:outline-none">
+                    </div>
+                    <div>
+                        <label id="modalLblMessage" class="block text-sm font-medium text-gray-700 mb-1">Message ou contributions souhaitées</label>
+                        <textarea id="mMessage" rows="3" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-academic focus:outline-none"></textarea>
+                    </div>
+                    <div class="pt-4 flex justify-end gap-3">
+                        <button type="button" onclick="closeMembershipModal()" id="modalBtnCancel" class="px-4 py-2 border rounded-lg text-gray-600 hover:bg-gray-100">Annuler</button>
+                        <button type="submit" id="modalBtnSubmit" class="px-6 py-2 bg-academic-gold text-academic-dark font-bold rounded-lg hover:bg-yellow-600 shadow">Soumettre ma demande</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE CONFIGURATION ET GESTION DES DONNÉES / TRADUCTIONS -->
+    <script>
+        /* ========================================================================== */
+        /* ZONE MODIFIABLE : MODIFIEZ VOS DONNÉES, NOMS, MEMBRES ET LIENS DIRECTEMENT ICI */
+        /* ========================================================================== */
+        const CONFIG_ASSOCIATION = {
+            email: "contact@aaec-fsbm.ma",
+            phone: "+212 5 22 70 46 71",
+            googleFormsUrl: "https://docs.google.com/forms/d/e/VOTRE_LIEN_GOOGLE_FORM/viewform",
+
+            president: {
+                name: "Pr. Ahmed Bennamara",
+                dept_fr: "Département de Chimie, FSBM",
+                dept_ar: "شعبة الكيمياء، كلية العلوم بن مسيك",
+                image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80",
+            },
+
+            boardMembers: [
+                {
+                    name: "Pr. Abdelfattah Derouiche",
+                    role_fr: "Vice-Président",
+                    role_ar: "نائب الرئيس",
+                    dept_fr: "Département de Biologie",
+                    dept_ar: "شعبة علوم الحياة",
+                    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    name: "Pr. Mohamed El Hafidi",
+                    role_fr: "Secrétaire Général",
+                    role_ar: "الكاتب العام",
+                    dept_fr: "Département de Physique",
+                    dept_ar: "شعبة الفيزياء",
+                    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    name: "Pr. Abderrahmane Belhouari",
+                    role_fr: "Trésorier",
+                    role_ar: "أمين المال",
+                    dept_fr: "Département de Biologie",
+                    dept_ar: "شعبة علوم الحياة",
+                    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    name: "Pr. Said Benkaddour",
+                    role_fr: "Assesseure chargée des affaires scientifiques",
+                    role_ar: "مستشار",
+                    dept_fr: "Département de Géologie",
+                    dept_ar: "شعبة الجيولوجيا",
+                    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
+                }
+            ],
+
+            news: [
+                {
+                    date: "15 Mai 2026",
+                    title_fr: "Assemblée Générale Ordinaire de l'AAEC-FSBM",
+                    title_ar: "الجمع العام العادي لجمعية أساتذة و باحثي كلية العلوم بن مسيك القدماء",
+                    desc_fr: "L'association a tenu son assemblée générale constitutive, adopté son statut, son règlement intérieur et élu les membres de son bureau.",
+                    desc_ar: "عقدت الجمعية جمعها التأسيسي للمصادقة على النظام الأساسي والقانون الداخلي وانتخاب أعضاء المكتب المسير.",
+                    image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    date: "28 Avril 2026",
+                    title_fr: "Hommage aux professeurs retraités de la FSBM",
+                    title_ar: "حفل تكريم الأساتذة المحالين على التقاعد بكلية العلوم بن مسيك",
+                    desc_fr: "Une cérémonie mémorable organisée en l'honneur des enseignants chercheurs partis à la retraite en reconnaissance de leurs services.",
+                    desc_ar: "حفل متميز نظم عرفاناً بالخدمات الجليلة التي قدمها الأساتذة الباحثون المحالون على التقاعد.",
+                    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    date: "10 Mars 2026",
+                    title_fr: "Cycle de conférences et mentorat intergénérationnel",
+                    title_ar: "سلسلة ندوات وبرنامج الإرشاد العلمي بين الأجيال",
+                    desc_fr: "Lancement du programme de mentorat destiné à accompagner les jeunes doctorants et chercheurs de la faculté.",
+                    desc_ar: "إطلاق برنامج التوجيه والإرشاد لدعم طلبة الدكتوراه والباحثين الشباب بالكلية.",
+                    image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80"
+                }
+            ],
+
+            translations: {
+                fr: {
+                    instHeader: "Université Hassan II de Casablanca | Faculté des Sciences Ben M'sik",
+                    navAccueil: "Accueil",
+                    navMot: "Mot du Président",
+                    navBureau: "Le Bureau",
+                    navActus: "Actualités",
+                    navContact: "Contact",
+                    navAdhesionText: "Adhérer à l'Association",
+                    heroBadge: "Faculté des Sciences Ben M'sik - Casablanca",
+                    heroTitle: "Association des Anciens Enseignants Chercheurs de la FSBM",
+                    heroSubtitle: "Préserver la mémoire académique, perpétuer l'esprit de recherche et tisser des liens solides entre les générations d'enseignants.",
+                    heroBtnAdhesion: "Rejoindre l'Association",
+                    heroBtnActus: "Découvrir nos Actualités",
+                    presTitle: "Mot du Président",
+                    presBadgeRole: "Président de l'AAEC-FSBM",
+                    presDept: "Département de Chimie, FSBM",
+                    presText1: "Chers collègues, chers anciens de la Faculté des Sciences Ben M'sik, c'est avec un immense plaisir et un profond sentiment d'appartenance que je m'adresse à vous à travers ce portail officiel. Notre faculté a vu passer des générations d'esprits brillants qui ont façonné l'excellence scientifique de notre établissement.",
+                    presText2: "Cette association se veut un pont vivant entre le passé glorieux et l'avenir prometteur de notre institution. Ensemble, continuons à œuvrer pour le partage des savoirs, l'entraide et l'accompagnement des nouvelles générations de chercheurs.",
+                    boardTitle: "Le Bureau Exécutif",
+                    boardSubtitle: "Les membres actifs au service de l'association",
+                    newsTitle: "Actualités & Événements",
+                    newsSubtitle: "Restez informés des dernières activités de l'association",
+                    ctaTitle: "Rejoignez notre réseau d'anciens chercheurs",
+                    ctaDesc: "Participez activement à nos initiatives, rencontres scientifiques et projets de mentorat. L'adhésion est ouverte à tous les anciens enseignants de la FSBM.",
+                    ctaBtnModal: "Remplir le formulaire d'adhésion en ligne",
+                    ctaGoogleText: "Lien direct Google Forms",
+                    contactTitle: "Contact & Localisation",
+                    contactSubtitle: "Venez nous rendre visite ou envoyez-nous un message",
+                    formTitle: "Envoyez-nous un message",
+                    labelName: "Nom et Prénom",
+                    labelEmail: "Adresse Email",
+                    labelSubject: "Sujet",
+                    labelMessage: "Message",
+                    btnSend: "Envoyer le message",
+                    infoTitle: "Informations Officielles",
+                    infoAddress: "Faculté des Sciences Ben M'sik, Boulevard Cadi El Iass, Sidi Othmane, BP 7955, Casablanca, Maroc",
+                    footerDesc: "Association des Anciens Enseignants Chercheurs de la Faculté des Sciences Ben M'sik",
+                    footerCopy: "© 2026 AAEC-FSBM. Tous droits réservés. Conçu pour les enseignants chercheurs.",
+                    modalTitle: "Formulaire d'Adhésion - AAEC-FSBM",
+                    modalLblName: "Nom et Prénom *",
+                    modalLblEmail: "Email Personnel / Professionnel *",
+                    modalLblPhone: "Téléphone *",
+                    modalLblDept: "Département d'origine à la FSBM *",
+                    modalLblGrade: "Grade / Spécialité *",
+                    modalLblPeriod: "Période d'activité à la FSBM",
+                    modalLblMessage: "Message ou contributions souhaitées",
+                    modalBtnCancel: "Annuler",
+                    modalBtnSubmit: "Soumettre ma demande"
+                },
+                ar: {
+                    instHeader: "جامعة الحسن الثاني بالدار البيضاء | كلية العلوم بن مسيك",
+                    navAccueil: "الرئيسية",
+                    navMot: "كلمة الرئيس",
+                    navBureau: "المكتب المسير",
+                    navActus: "الأخبار",
+                    navContact: "اتصل بنا",
+                    navAdhesionText: "الانخراط في الجمعية",
+                    heroBadge: "كلية العلوم بن مسيك - الدار البيضاء",
+                    heroTitle: "جمعية أساتذة وباحثي كلية العلوم بن مسيك القدماء",
+                    heroSubtitle: "الحفاظ على الذاكرة الأكاديمية، ترسيخ روح البحث العلمي، وتوطيد أواصر التعاون بين أجيال الأساتذة.",
+                    heroBtnAdhesion: "انضم إلى الجمعية",
+                    heroBtnActus: "اكتشف آخر أخبارنا",
+                    presTitle: "كلمة الرئيس",
+                    presBadgeRole: "رئيس الجمعية",
+                    presDept: "شعبة الكيمياء، كلية العلوم بن مسيك",
+                    presText1: "زملائي الأعزاء، أساتذة وقيادات كلية العلوم بن مسيك الأجلاء، يطيب لي ويزيدني فخراً أن أرحب بكم عبر هذه البوابة الرسمية. لقد شهدت كليتنا العريقة تعاقب أجيال من الكفاءات المتميزة التي صنعت التميز العلمي لمؤسستنا.",
+                    presText2: "تطمح هذه الجمعية لأن تكون جسراً حياً يربط الماضي المجيد بالاستشراف الواعد لمستقبل مؤسستنا. فلنعمل معاً من أجل تقاسم المعارف، التضامن ومواكبة الأجيال الصاعدة من الباحثين.",
+                    boardTitle: "المكتب المسير",
+                    boardSubtitle: "الأعضاء الفاعلون في خدمة الجمعية",
+                    newsTitle: "الأخبار والفعاليات",
+                    newsSubtitle: "ابقوا على اطلاع دائم بأنشطة ومستجدات الجمعية",
+                    ctaTitle: "انضم إلى شبكة الباحثين القدماء",
+                    ctaDesc: "شارك بفعالية في مبادراتنا ولقاءاتنا العلمية وبرامج الإرشاد. باب الانخراط مفتوح أمام كافة الأساتذة القدماء بالكلية.",
+                    ctaBtnModal: "ملء استمارة الانخراط عبر الإنترنت",
+                    ctaGoogleText: "الرابط المباشر لـ Google Forms",
+                    contactTitle: "الاتصال والموقع",
+                    contactSubtitle: "تفضلوا بزيارتنا أو مراسلتنا عبر البريد الإلكتروني",
+                    formTitle: "أرسل لنا رسالة",
+                    labelName: "الاسم الكامل",
+                    labelEmail: "البريد الإلكتروني",
+                    labelSubject: "الموضوع",
+                    labelMessage: "الرسالة",
+                    btnSend: "إرسال الرسالة",
+                    infoTitle: "المعلومات الرسمية",
+                    infoAddress: "كلية العلوم بن مسيك، شارع القاضي العياض، سيدي عثمان، ص.ب 7955، الدار البيضاء، المغرب",
+                    footerDesc: "جمعية أساتذة وباحثي كلية العلوم بن مسيك القدماء",
+                    footerCopy: "© 2026 جميع الحقوق محفوظة لجمعية أساتذة وباحثي كلية العلوم بن مسيك القدماء.",
+                    modalTitle: "استمارة الانخراط - الجمعية",
+                    modalLblName: "الاسم الكامل *",
+                    modalLblEmail: "البريد الإلكتروني *",
+                    modalLblPhone: "رقم الهاتف *",
+                    modalLblDept: "الشعبة الأصلية بكلية العلوم بن مسيك *",
+                    modalLblGrade: "الرتبة / التخصص *",
+                    modalLblPeriod: "فترة العمل بالكلية",
+                    modalLblMessage: "رسالة أو مقترحات للمساهمة",
+                    modalBtnCancel: "إلغاء",
+                    modalBtnSubmit: "إرسال الطلب"
+                }
+            }
+        };
+        /* ========================================================================== */
+        /* FIN DE LA ZONE MODIFIABLE                                                  */
+        /* ========================================================================== */
+
+        let currentLang = 'fr';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDynamicContent();
+            document.getElementById('ctaGoogleFormLink').href = CONFIG_ASSOCIATION.googleFormsUrl;
+        });
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            const html = document.getElementById('htmlRoot');
+            
+            if (lang === 'ar') {
+                html.setAttribute('dir', 'rtl');
+                html.setAttribute('lang', 'ar');
+                document.getElementById('btnLangAr').className = "px-2.5 py-1 text-xs font-bold rounded bg-academic-gold text-academic-dark transition";
+                document.getElementById('btnLangFr').className = "px-2.5 py-1 text-xs font-bold rounded text-white hover:bg-academic-light transition";
+            } else {
+                html.setAttribute('dir', 'ltr');
+                html.setAttribute('lang', 'fr');
+                document.getElementById('btnLangFr').className = "px-2.5 py-1 text-xs font-bold rounded bg-academic-gold text-academic-dark transition";
+                document.getElementById('btnLangAr').className = "px-2.5 py-1 text-xs font-bold rounded text-white hover:bg-academic-light transition";
+            }
+
+            renderDynamicContent();
+        }
+
+        function renderDynamicContent() {
+            const t = CONFIG_ASSOCIATION.translations[currentLang];
+            
+            for (const key in t) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.innerText = t[key];
+                }
+            }
+
+            document.getElementById('presImg').src = CONFIG_ASSOCIATION.president.image;
+            document.getElementById('presName').innerText = CONFIG_ASSOCIATION.president.name;
+            document.getElementById('presDept').innerText = (currentLang === 'ar') ? CONFIG_ASSOCIATION.president.dept_ar : CONFIG_ASSOCIATION.president.dept_fr;
+
+            const boardGrid = document.getElementById('boardGrid');
+            boardGrid.innerHTML = '';
+            CONFIG_ASSOCIATION.boardMembers.forEach(member => {
+                const role = (currentLang === 'ar') ? member.role_ar : member.role_fr;
+                const dept = (currentLang === 'ar') ? member.dept_ar : member.dept_fr;
+                boardGrid.innerHTML += `
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-200 text-center p-6">
+                        <img src="${member.image}" alt="${member.name}" class="w-28 h-28 rounded-full object-cover mx-auto mb-4 border-2 border-academic-gold">
+                        <h4 class="font-bold text-lg text-academic-dark">${member.name}</h4>
+                        <p class="text-academic font-semibold text-sm mt-1">${role}</p>
+                        <p class="text-gray-500 text-xs mt-1">${dept}</p>
+                    </div>
+                `;
+            });
+
+            const newsGrid = document.getElementById('newsGrid');
+            newsGrid.innerHTML = '';
+            CONFIG_ASSOCIATION.news.forEach(item => {
+                const title = (currentLang === 'ar') ? item.title_ar : item.title_fr;
+                const desc = (currentLang === 'ar') ? item.desc_ar : item.desc_fr;
+                newsGrid.innerHTML += `
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-200 flex flex-col justify-between">
+                        <div>
+                            <img src="${item.image}" alt="Actualité" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <span class="text-xs font-semibold text-academic-gold bg-academic-gold/10 px-2.5 py-1 rounded-full">${item.date}</span>
+                                <h3 class="font-bold text-lg text-academic-dark mt-3 mb-2">${title}</h3>
+                                <p class="text-gray-600 text-sm leading-relaxed">${desc}</p>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-6 pt-2">
+                            <span class="text-academic font-semibold text-sm flex items-center gap-1 cursor-pointer hover:underline">
+                                ${currentLang === 'ar' ? 'اقرأ المزيد' : 'Lire la suite'} <i class="fas fa-arrow-right text-xs"></i>
+                            </span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function openMembershipModal() {
+            document.getElementById('membershipModal').classList.remove('hidden');
+        }
+
+        function closeMembershipModal() {
+            document.getElementById('membershipModal').classList.add('hidden');
+        }
+
+        function handleMembershipSubmit(event) {
+            event.preventDefault();
+            alert(currentLang === 'ar' ? 'تم إرسال طلب انخراطكم بنجاح! سنتواصل معكم قريباً.' : 'Votre demande d\'adhésion a été envoyée avec succès ! Nous vous contacterons bientôt.');
+            document.getElementById('membershipForm').reset();
+            closeMembershipModal();
+        }
+
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+            
+            window.location.href = `mailto:${CONFIG_ASSOCIATION.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Nom: " + name + "\nEmail: " + email + "\n\nMessage:\n" + message)}`;
+        }
+    </script>
+</body>
+</html>
