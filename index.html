@@ -47,7 +47,7 @@
             </div>
             <div class="flex items-center gap-4">
                 <span id="contactHeaderPhone"><i class="fas fa-phone-alt text-academic-gold mr-1 ml-1"></i> +212 5 22 70 46 71</span>
-                <span id="contactHeaderEmail"><i class="fas fa-envelope text-academic-gold mr-1 ml-1"></i> associationaecfsbm@gmail.com</span>
+                <span id="contactHeaderEmail"><i class="fas fa-envelope text-academic-gold mr-1 ml-1"></i> associationancensfsbm@gmail.com</span>
                 <!-- Sélecteur de langue -->
                 <div class="inline-flex rounded-md shadow-sm bg-academic/80 p-0.5 ml-2">
                     <button onclick="switchLanguage('fr')" id="btnLangFr" class="px-2.5 py-1 text-xs font-bold rounded bg-academic-gold text-academic-dark transition">FR</button>
@@ -63,9 +63,9 @@
             <div class="flex justify-between h-20 items-center">
                 <!-- Logo & Titre de l'Association -->
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-full bg-academic-dark flex items-center justify-center text-academic-gold font-bold text-xl border-2 border-academic-gold">
-                        AA
-                    </div>
+
+                   <img src="chemin/vers/votre-logo.png" alt="Logo AAEC-FSBM" class="w-12 h-12 object-contain">
+        
                     <div>
                         <span id="navAssocName" class="font-bold text-lg block text-academic-dark leading-tight">AAEC-FSBM</span>
                         <span id="navAssocSub" class="text-xs text-gray-500 font-medium">Anciens Enseignants Chercheurs - FSBM</span>
@@ -351,7 +351,7 @@
         /* ZONE MODIFIABLE : MODIFIEZ VOS DONNÉES, NOMS, MEMBRES ET LIENS DIRECTEMENT ICI */
         /* ========================================================================== */
         const CONFIG_ASSOCIATION = {
-            email: "associationaecfsbm@gmail.com",
+            email: "associationancensfsbm@gmail.com",
             phone: "+212 5 22 70 46 71",
             googleFormsUrl: "https://docs.google.com/forms/d/e/VOTRE_LIEN_GOOGLE_FORM/viewform",
 
@@ -629,11 +629,37 @@
         }
 
         function handleMembershipSubmit(event) {
-            event.preventDefault();
-            alert(currentLang === 'ar' ? 'تم إرسال طلب انخراطكم بنجاح! سنتواصل معكم قريباً.' : 'Votre demande d\'adhésion a été envoyée avec succès ! Nous vous contacterons bientôt.');
-            document.getElementById('membershipForm').reset();
-            closeMembershipModal();
-        }
+    event.preventDefault();
+
+    // Récupération des valeurs du formulaire
+    const name = document.getElementById('mName').value;
+    const email = document.getElementById('mEmail').value;
+    const phone = document.getElementById('mPhone').value;
+    const dept = document.getElementById('mDept').value;
+    const grade = document.getElementById('mGrade').value;
+    const period = document.getElementById('mPeriod').value;
+    const message = document.getElementById('mMessage').value;
+
+    // Préparation du sujet et du corps de l'email
+    const subject = encodeURIComponent("Demande d'adhésion - " + name);
+    const body = encodeURIComponent(
+        "Nouvelle demande d'adhésion :\n\n" +
+        "Nom et Prénom : " + name + "\n" +
+        "Email : " + email + "\n" +
+        "Téléphone : " + phone + "\n" +
+        "Département : " + dept + "\n" +
+        "Grade / Spécialité : " + grade + "\n" +
+        "Période d'activité : " + period + "\n" +
+        "Message : " + message
+    );
+
+    // Redirection vers le lien mailto avec votre nouvelle adresse
+    window.location.href = `mailto:${CONFIG_ASSOCIATION.email}?subject=${subject}&body=${body}`;
+
+    alert(currentLang === 'ar' ? 'تم فتح تطبيق البريد الإلكتروني لإرسال طلبكم.' : 'Votre client de messagerie a été ouvert pour envoyer la demande.');
+    document.getElementById('membershipForm').reset();
+    closeMembershipModal();
+}
 
         function handleContactSubmit(event) {
     event.preventDefault();
