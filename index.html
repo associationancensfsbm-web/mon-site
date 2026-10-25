@@ -577,6 +577,7 @@
             boardGrid.innerHTML = '';
             CONFIG_ASSOCIATION.boardMembers.forEach(member => {
                 const role = (currentLang === 'ar') ? member.role_ar : member.role_fr;
+                const dept = (currentLang === 'ar') ? member.dept_ar : member.dept_fr;
                 const memberName = (currentLang === 'ar' && member.name_ar) ? member.name_ar : member.name;
                 boardGrid.innerHTML += `
                     <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-200 text-center p-6">
