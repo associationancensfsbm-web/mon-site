@@ -350,12 +350,13 @@
         /* ZONE MODIFIABLE : MODIFIEZ VOS DONNÉES, NOMS, MEMBRES ET LIENS DIRECTEMENT ICI */
         /* ========================================================================== */
         const CONFIG_ASSOCIATION = {
-            email: "contact@aaec-fsbm.ma",
+            email: "associationaecfsbm@gmail.com",
             phone: "+212 5 22 70 46 71",
             googleFormsUrl: "https://docs.google.com/forms/d/e/VOTRE_LIEN_GOOGLE_FORM/viewform",
 
             president: {
                 name: "Pr. Ahmed Bennamara",
+                name_ar: "د. أحمد بنعمرة",
                 dept_fr: "Département de Chimie, FSBM",
                 dept_ar: "شعبة الكيمياء، كلية العلوم بن مسيك",
                 image: "image/membre-Bennamara.png",
@@ -569,18 +570,18 @@
             }
 
             document.getElementById('presImg').src = CONFIG_ASSOCIATION.president.image;
-            document.getElementById('presName').innerText = CONFIG_ASSOCIATION.president.name;
+            document.getElementById('presName').innerText = (currentLang === 'ar' && CONFIG_ASSOCIATION.president.name_ar) ? CONFIG_ASSOCIATION.president.name_ar : CONFIG_ASSOCIATION.president.name;
             document.getElementById('presDept').innerText = (currentLang === 'ar') ? CONFIG_ASSOCIATION.president.dept_ar : CONFIG_ASSOCIATION.president.dept_fr;
 
             const boardGrid = document.getElementById('boardGrid');
             boardGrid.innerHTML = '';
             CONFIG_ASSOCIATION.boardMembers.forEach(member => {
                 const role = (currentLang === 'ar') ? member.role_ar : member.role_fr;
-                const dept = (currentLang === 'ar') ? member.dept_ar : member.dept_fr;
+                const memberName = (currentLang === 'ar' && member.name_ar) ? member.name_ar : member.name;
                 boardGrid.innerHTML += `
                     <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-200 text-center p-6">
-                        <img src="${member.image}" alt="${member.name}" class="w-28 h-28 rounded-full object-cover mx-auto mb-4 border-2 border-academic-gold">
-                        <h4 class="font-bold text-lg text-academic-dark">${member.name}</h4>
+                        <img src="${member.image}" alt="${memberName}" class="w-28 h-28 rounded-full object-cover mx-auto mb-4 border-2 border-academic-gold">
+                        <h4 class="font-bold text-lg text-academic-dark">${memberName}</h4>
                         <p class="text-academic font-semibold text-sm mt-1">${role}</p>
                         <p class="text-gray-500 text-xs mt-1">${dept}</p>
                     </div>
