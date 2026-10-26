@@ -661,20 +661,39 @@
     closeMembershipModal();
 }
 
-        function handleContactSubmit(event) {
+        
+function handleContactSubmit(event) {
     event.preventDefault();
+
     const form = event.target;
-    fetch('/', {
+    const formData = new FormData(form);
+
+    formData.append('access_key', 'dca12dc0-8fb7-4fbd-9d48-909a4c4e9be5');
+
+    fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form)).toString()
-    }).then(() => {
-        alert(currentLang === 'ar' ? 'تم إرسال رسالتك بنجاح' : 'Votre message a bien été envoyé.');
-        form.reset();
-    }).catch(() => {
-        alert(currentLang === 'ar' ? 'حدث خطأ، يرجى المحاولة مرة أخرى' : "Une erreur s'est produite, veuillez réessayer.");
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(currentLang === 'ar'
+                ? 'تم إرسال رسالتك بنجاح'
+                : 'Votre message a bien été envoyé.');
+            form.reset();
+        } else {
+            alert(currentLang === 'ar'
+                ? 'حدث خطأ، يرجى المحاولة مرة أخرى'
+                : "L'envoi a échoué. Veuillez réessayer.");
+        }
+    })
+    .catch(() => {
+        alert(currentLang === 'ar'
+            ? 'حدث خطأ، يرجى المحاولة مرة أخرى'
+            : "Une erreur s'est produite, veuillez réessayer.");
     });
 }
+
 
     </script>
 </body>
