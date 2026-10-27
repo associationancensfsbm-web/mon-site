@@ -690,33 +690,36 @@ function handleContactSubmit(event) {
     const form = event.target;
     const formData = new FormData(form);
 
+    // Remplace ce texte par ta clé Web3Forms actuelle.
     formData.append('access_key', 'dca12dc0-8fb7-4fbd-9d48-909a4c4e9be5');
 
     fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         body: formData
     })
-    .then(async response => {
-    const data = await response.json();
-    alert(JSON.stringify(data));
-    return data;
-})
-.then(data => {
-    if (data.success) {
-            alert(currentLang === 'ar'
-                ? 'تم إرسال رسالتك بنجاح'
-                : 'Votre message a bien été envoyé.');
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(
+                currentLang === 'ar'
+                    ? 'تم إرسال رسالتك بنجاح'
+                    : 'Votre message a bien été envoyé.'
+            );
             form.reset();
         } else {
-            alert(currentLang === 'ar'
-                ? 'حدث خطأ، يرجى المحاولة مرة أخرى'
-                : "L'envoi a échoué. Veuillez réessayer.");
+            alert(
+                currentLang === 'ar'
+                    ? 'حدث خطأ، يرجى المحاولة مرة أخرى'
+                    : "L'envoi a échoué. Veuillez réessayer."
+            );
         }
     })
     .catch(() => {
-        alert(currentLang === 'ar'
-            ? 'حدث خطأ، يرجى المحاولة مرة أخرى'
-            : "Une erreur s'est produite, veuillez réessayer.");
+        alert(
+            currentLang === 'ar'
+                ? 'حدث خطأ، يرجى المحاولة مرة أخرى'
+                : "Une erreur s'est produite, veuillez réessayer."
+        );
     });
 }
 
