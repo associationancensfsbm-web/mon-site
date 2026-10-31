@@ -690,8 +690,9 @@
 
     const scriptURL = "https://script.google.com/macros/s/AKfycbwrt2mzV3_Tg_wTSMogzNx9Tfi8Om1ba0ZsLkwvMQIKWLGoCVcI02B_vZB7k0S-Li-r/exec";
 
+    const formData = new FormData(form);
+
     try {
-        // Enregistrement dans Google Sheets
         const sheetsRequest = fetch(scriptURL, {
             method: "POST",
             mode: "no-cors",
@@ -699,12 +700,7 @@
                 "Content-Type": "text/plain;charset=utf-8"
             },
             body: JSON.stringify(data)
-        }).catch(error => {
-            console.error("Erreur Google Sheets :", error);
         });
-
-        // Envoi de l'email avec Web3Forms
-        const formData = new FormData(form);
 
         const response = await fetch(
             "https://api.web3forms.com/submit",
@@ -716,36 +712,31 @@
 
         const result = await response.json();
 
-        if (result.success) {
-            await sheetsRequest;
-
-            alert(
-                currentLang === 'ar'
-                ? 'تم إرسال طلب الانضمام بنجاح'
-                : 'Votre demande d’adhésion a bien été envoyée !'
-            );
-
-            form.reset();
-            closeMembershipModal();
-        } else {
-            alert(
-                currentLang === 'ar'
-                ? 'حدث خطأ، يرجى المحاولة مرة أخرى'
-                : 'Une erreur est survenue. Veuillez réessayer.'
-            );
+        if (!result.success) {
+            throw new Error("Web3Forms n'a pas accepté la demande.");
         }
 
-    } catch (error) {
-        console.error(error);
+        await sheetsRequest;
 
         alert(
             currentLang === 'ar'
-            ? 'حدث خطأ، يرجى المحاولة مرة أخرى'
-            : 'Une erreur est survenue. Veuillez réessayer.'
+                ? 'تم إرسال طلب الانضمام بنجاح'
+                : 'Votre demande a bien été envoyée !'
+        );
+
+        form.reset();
+        closeMembershipModal();
+
+    } catch (error) {
+        console.error("Erreur d'envoi :", error);
+
+        alert(
+            currentLang === 'ar'
+                ? 'حدث خطأ، يرجى المحاولة مرة أخرى'
+                : 'Une erreur est survenue. Veuillez réessayer.'
         );
     }
 }
-
 
         
 function handleContactSubmit(event) {
