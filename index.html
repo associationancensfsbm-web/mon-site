@@ -453,7 +453,10 @@
                     title_ar: "الجمع العام  التأسيسي لجمعية  قدماء الأساتذة الباحثين لكلية العلوم بن مسيك",
                     desc_fr: "L'association a tenu son assemblée générale constitutive, marquée par de chaleureuses retrouvailles entre anciens collègues. À l'issue d'une discussion générale constructive, l'assemblée a officiellement adopté ses statuts et son règlement intérieur, avant de procéder à l'élection des membres de son bureau.",
                     desc_ar: "عقدت الجمعيةعقدت الجمعية جمعها العام التأسيسي، الذي تميّز بلقاء حارّ جمع الزملاء القدامى. وعقب نقاش عام بنّاء، صادق الجمع العام رسمياً على القانون الأساسي والنظام الداخلي للجمعية، قبل أن ينتقل إلى انتخاب أعضاء مكتبها",
-                    image: [ "image/Bureau.jpg", "image/AG-Association.jpg "]
+                    image: [ 
+                        "image/Bureau.jpg", 
+                        "image/AG-Association.jpg "
+                    ]
                 },
                 {
                     date: "21 Mai 2026",
@@ -654,11 +657,11 @@ CONFIG_ASSOCIATION.news.forEach((item, index) => {
             hover:shadow-md transition border border-gray-200
             flex flex-col">
 
-            <div class="grid grid-cols-2 gap-2">
-    ${(item.images || [item.image]).map(photo => `
+           <div class="grid grid-cols-2 gap-2">
+    ${(item.images || (item.image ? [item.image] : [])).map(photo => `
         <img src="${photo}"
              alt="${title}"
-             class="w-full h-48 object-cover">
+             class="w-full h-48 object-cover rounded-lg">
     `).join('')}
 </div>
 
